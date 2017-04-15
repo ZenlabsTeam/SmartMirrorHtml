@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>Smart Mirror</title>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+    <!-- <header>
+        <nav class="light-blue lighten-1 center">
+            <div class="nav-wrapper container">Smart Mirror</div>
+        </nav>
+    </header> -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m4 l3">
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text center">
+                            <span class="card-title blink" id="currentTime">00:00:00</span>
+                        </div>
+                    </div>
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text center">
+                            <span class="card-title" id="currentTemp">26&#8451;</span>
+                        </div>
+                    </div>
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">News</span>
+                            <ul class="collection blue-grey-text text-darken-1" id="newsItems"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 l6">
+                    <img class="responsive-img" alt="VIDEO TO BE LOADED HERE" id="videoImg">
+                </div>
+                <div class="col s12 m4 l3">
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">11:00 AM</span>
+                            <p>Zenlabs Opening by Chairman</p>
+
+                        </div>
+                    </div>
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">1:00 PM</span>
+                            <p>Lunch for the Team</p>
+                        </div>
+                    </div>
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">4:00 PM</span>
+                            <p>Press meet about Zenlabs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="IPCamAddress" class="modal">
+            <div class="modal-content">
+                <h4>Enter Details of IP Cam</h4>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="172.16.10.35" id="camIP" type="text" class="validate" />
+                        <label for="first_name">IP Address</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="8080" id="camPort" type="text" class="validate" />
+                        <label for="first_name">Port</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="setVideo()">Submit</a>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer orange">
+        <div class="footer-copyright">
+            <div class="container center">
+                Developed by Zensar
+            </div>
+        </div>
+    </footer>
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/news.js"></script>
+    <script src="js/temp.js"></script>
+    <script src="js/time.js"></script>
+    <script src="js/init.js"></script>
+</body>
+
+</html>
