@@ -7,7 +7,7 @@ var photoURL = "notset";
         $('.modal').modal();
         //$('#IPCamAddress').modal('open');
 
-        $('#camIP').val('192.168.1.129');
+        $('#camIP').val('192.168.43.1');
         $('#camPort').val('8080');
         setVideo();
 

@@ -1,6 +1,7 @@
 var subscriptionKey = "677a9fa1bda549a7a0dee3b90bba4a07";
+var emotionItems = ['anger', 'contempt', 'disgust', 'fear', 'happiness', 'neutral', 'sadness', 'surprise'];
 
-makeblob = function (dataURL) {
+function makeblob(dataURL) {
     var BASE64_MARKER = ';base64,';
     if (dataURL.indexOf(BASE64_MARKER) == -1) {
         var parts = dataURL.split(',');
@@ -24,6 +25,62 @@ makeblob = function (dataURL) {
     return new Blob([uInt8Array], {
         type: contentType
     });
+}
+
+function showPersonName(personId) {
+    $.ajax({
+            url: "https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/usergroup/persons/" + personId,
+            beforeSend: function (xhrObj) {
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type", "application/JSON");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                // xhrObj.setRequestHeader("Content-Length", img.fileSize);
+            },
+            type: "GET",
+            processData: false,
+            contentType: 'application/JSON',
+
+        }).done(function (data) {
+            console.log(data['name']);
+            Materialize.toast(data['name'], 3000, 'rounded');
+        })
+        .fail(function () {
+            alert("error");
+        });
+}
+
+function identifyPersionId(faceIdsList) {
+    console.log(faceIdsList);
+    var params = {
+        "personGroupId": "usergroup",
+        "faceIds": faceIdsList,
+        "maxNumOfCandidatesReturned": 1,
+        "confidenceThreshold": 0.5
+    };
+    $.ajax({
+            url: "https://westus.api.cognitive.microsoft.com/face/v1.0/identify",
+            beforeSend: function (xhrObj) {
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type", "application/json");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                // xhrObj.setRequestHeader("Content-Length", img.fileSize);
+            },
+            type: "POST",
+            dataType: "json",
+            // Request body
+            data: JSON.stringify(params)
+        })
+        .done(function (data) {
+            for (var k = 0; k < data.length; k++) {
+
+                showPersonName(data[k]['candidates'][0]['personId']);
+            }
+
+        })
+        .fail(function () {
+            alert("error");
+        });
+
 }
 
 function detect() {
@@ -54,7 +111,7 @@ function detect() {
         ctx.drawImage(this, 0, 0, width, height);
         var dataURL = c.toDataURL();
         console.log('DATA OK w' + width + ' h' + height);
-        console.log('DATA OK ' + dataURL);
+
 
         $.ajax({
                 url: "https://westus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=smile,emotion",
@@ -71,7 +128,29 @@ function detect() {
                 data: makeblob(dataURL),
             })
             .done(function (data) {
-                alert("success");
+                var faceIds = [];
+                var emoMap = {};
+                for (var i = 0; i < data.length; i++) {
+
+
+                    console.log(data[i].faceId);
+                    var stats = data[i]['faceAttributes']['emotion'];
+                    var emotionName = emotionItems[0];
+                    var emotionValue = stats[emotionItems[0]];
+                    for (var j = 1; j < emotionItems.lenght; j++) {
+                        if (emotionValue < stats[emotionItems[j]]) {
+                            emotionValue = stats[emotionItems[j]];
+                            emotionName = emotionItems[j];
+                        }
+                    }
+                    emoMap[data[i].faceId] = emotionName;
+                    faceIds.push(data[i].faceId);
+                }
+                if (faceIds.length > 0) {
+                    identifyPersionId(faceIds)
+                } else {
+                    Materialize.toast('No User Identified in snap', 3000, 'rounded');
+                }
             })
             .fail(function () {
                 alert("error");
@@ -82,5 +161,4 @@ function detect() {
 
 function snapit() {
     detect();
-    Materialize.toast('Snap it', 3000, 'rounded');
 }
