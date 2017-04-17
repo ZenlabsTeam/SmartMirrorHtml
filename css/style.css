@@ -17,12 +17,9 @@
 }
 
 .container {
-    width: 95%;
-    height: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+   margin 0 auto;
+    maxwidth : 3096px;    
 }
 
 .row {
@@ -34,4 +31,7 @@
     right: auto !important;
     bottom: 10%;
     left: 50%;
+}
+.responsive-img{
+margin 0.5rem 0 1rem 0;
 }

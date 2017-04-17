@@ -5,11 +5,12 @@ var photoURL = "notset";
 
         $('.button-collapse').sideNav();
         $('.modal').modal();
-        //$('#IPCamAddress').modal('open');
+        
 
-        $('#camIP').val('192.168.43.1');
+        $('#camIP').val('172.16.10.43');
         $('#camPort').val('8080');
         setVideo();
+//$('#IPCamAddress').modal('open');
 
         var recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
@@ -29,9 +30,9 @@ var photoURL = "notset";
 
 
 
-        // startTime();
-        //getTemp();
-        //getNews();
+         startTime();
+        getTemp();
+        getNews();
         //Materialize.toast('Loaded', 3000, 'rounded');
 
         snapit();
