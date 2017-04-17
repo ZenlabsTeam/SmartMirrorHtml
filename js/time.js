@@ -6,7 +6,14 @@ function startTime() {
     var s = today.getSeconds();
     m = twodigits(m);
     s = twodigits(s);
-    $('#currentTime').text(h + ":" + m + ":" + s);
+    $('#currentTime').text(h + ":" + m);
+    var now = new Date(today.getTime() - (60000 * ((12 * 60) + 30)));
+    h = now.getHours();
+    m = now.getMinutes();
+    s = now.getSeconds();
+    m = twodigits(m);
+    s = twodigits(s);
+    $('#currentTimeUSA').text(h + ":" + m);
     var t = setTimeout(startTime, 500);
 }
 
