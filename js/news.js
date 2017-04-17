@@ -10,7 +10,7 @@ function getNews() {
             if (data) {
                 var list = "";
                 for (var i = 0; i < data.articles.length; i++) {
-                    $("#newsItems").append('<li class="collection-item  blue-grey-text text-darken-1">' + data.articles[i].title + '</li>');
+                    $("#newsItems").append('<li class="collection-item  grey darken-4">' + data.articles[i].title + '</li>');
                     if (i > 2) break;
                 }
 

@@ -4,13 +4,13 @@ function startTime() {
     var h = today.getHours();
     var m = today.getMinutes();
     var s = today.getSeconds();
-    m = checkTime(m);
-    s = checkTime(s);
+    m = twodigits(m);
+    s = twodigits(s);
     $('#currentTime').text(h + ":" + m + ":" + s);
     var t = setTimeout(startTime, 500);
 }
 
-function checkTime(i) {
+function twodigits(i) {
     if (i < 10) {
         i = "0" + i
     }; // add zero in front of numbers < 10
