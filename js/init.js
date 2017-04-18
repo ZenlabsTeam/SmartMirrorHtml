@@ -51,7 +51,7 @@ var photoURL = "notset";
         getNews();
         //Materialize.toast('Loaded', 3000, 'rounded');
 
-        snapit();
+        //snapit();
     }); // end of document ready
 })(jQuery); // end of jQuery name space
 
