@@ -21,6 +21,7 @@ function getTemp() {
                 $("#currentTemp").text(temp.Value + String.fromCharCode(176) + temp.Unit);
 
                 $('#tempPic').attr("src", '/icons/' + twodigits(conditions.WeatherIcon) + '-s.png');
+                $('#tempDesc').text('its ' + conditions.WeatherText + ' in Pune')
             } else {
                 $("#currentTemp").text('Error Finding Temp');
             }
