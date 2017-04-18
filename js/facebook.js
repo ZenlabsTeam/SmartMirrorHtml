@@ -16,7 +16,7 @@ function postImageToFacebook(token, filename, mimeType, imageData, message) {
         success: function (data) {
             console.log("success: ", data);
             FB.init({
-                appId: '282915688822584',
+                appId: getAppId(),
                 version: 'v2.7' // or v2.1, v2.2, v2.3, ...
             });
             // Get image source url
@@ -69,7 +69,7 @@ function postPic(blob) {
     $.getScript('//connect.facebook.net/en_US/sdk.js', function () {
         console.log('posting pic 2');
         FB.init({
-            appId: '282915688822584',
+            appId: getAppId(),
             version: 'v2.7' // or v2.1, v2.2, v2.3, ...
         });
         FB.getLoginStatus(function (response) {
@@ -100,3 +100,7 @@ function postPic(blob) {
     });
 
 };
+
+function getAppId() {
+    return '1285554161522293';
+}
