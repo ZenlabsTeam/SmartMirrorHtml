@@ -51,8 +51,8 @@ function showPersonName(personId, emotion) {
             if (currentString === startedSnapping) {
                 currentString = 'In the last snap we found';
             }
-            currentString += '<br/><b>' + name + '</b> Seems to be <b>' + emotion + '</b> in emotion';
-            $('#snapStatus').html(currentString);
+            //currentString += '<br/><b>' + name + '</b> Seems to be <b>' + emotion + '</b> in emotion';
+            //$('#snapStatus').html(currentString);
             Materialize.toast(name + ' Seems to be ' + emotion + ' in emotion', 3000, 'rounded');
         })
         .fail(function () {
@@ -190,7 +190,7 @@ function processFB(img) {
 
 function snapit() {
     //console.log('in side snapit' + photoURL)
-    $('#snapStatus').html(startedSnapping);
+    // $('#snapStatus').html(startedSnapping);
     var img = new Image();
     img.crossOrigin = "Anonymous";
     img.onload = function () {
