@@ -3,7 +3,7 @@ function getAppId() {
     return '1285554161522293';
 }
 
-function postImageToFacebook(token, filename, mimeType, imageData, message) {
+function postImageToFacebook(token, mimeType, imageData) {
     var fd = new FormData();
     fd.append("access_token", token);
     fd.append("source", imageData);
@@ -38,9 +38,9 @@ function postImageToFacebook(token, filename, mimeType, imageData, message) {
                                 "POST", {
                                     "message": "",
                                     "picture": response.images[0].source,
-                                    "link": window.location.href,
-                                    "name": 'Look at the cute panda!',
-                                    "description": message,
+                                    "link": 'http://www.zensar.com',
+                                    "name": 'Taken by Smart mirror app at Zenlabs launch',
+                                    "description": 'Taken by Smart mirror app at Zenlabs launch',
                                     "privacy": {
                                         value: 'SELF'
                                     }
@@ -80,13 +80,13 @@ function postPic(blob) {
             console.log('posting pic RSPONSE');
             console.log(response);
             if (response.status === "connected") {
-                postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/png", blob, window.location.href);
+                postImageToFacebook(response.authResponse.accessToken, "image/png", blob);
             } else if (response.status === "not_authorized") {
                 console.log('posting pic 3-1');
                 FB.login(function (response) {
                     console.log('posting pic 4-1');
 
-                    postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/png", blob, window.location.href);
+                    postImageToFacebook(response.authResponse.accessToken, "image/png", blob);
                 }, {
                     scope: "publish_actions"
                 });
@@ -94,7 +94,7 @@ function postPic(blob) {
                 console.log('posting pic 3-2');
                 FB.login(function (response) {
                     console.log('posting pic 4-2');
-                    postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/png", blob, window.location.href);
+                    postImageToFacebook(response.authResponse.accessToken, "image/png", blob);
                 }, {
                     scope: "publish_actions"
                 });
