@@ -115,7 +115,7 @@ function detect(blobData) {
             var faceIds = [];
             var emoMap = {};
             for (var i = 0; i < data.length; i++) {
-                //console.log(data[i].faceId);
+                console.log(data[i].faceId);
                 var stats = data[i]['faceAttributes']['emotion'];
                 //console.log(emotionItems.length);
                 var emotionName = emotionItems[0];
@@ -189,14 +189,13 @@ function processFB(img) {
 }
 
 function snapit() {
-    //console.log('in side snapit' + photoURL)
+    console.log('in side snapit' + photoURL)
     // $('#snapStatus').html(startedSnapping);
     var img = new Image();
     img.crossOrigin = "Anonymous";
     img.onload = function () {
-        //var c = document.getElementById('myCanvas');
-        //processFB(img);
-
+        var c = document.getElementById('myCanvas');
+        processFB(img);
         processDetect(img);
     }
     img.src = photoURL;
