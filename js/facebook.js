@@ -1,4 +1,8 @@
 //http://gorigins.com/posting-a-canvas-image-to-facebook-and-twitter/
+function getAppId() {
+    return '1285554161522293';
+}
+
 function postImageToFacebook(token, filename, mimeType, imageData, message) {
     var fd = new FormData();
     fd.append("access_token", token);
@@ -100,7 +104,3 @@ function postPic(blob) {
     });
 
 };
-
-function getAppId() {
-    return '1285554161522293';
-}

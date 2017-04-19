@@ -38,8 +38,9 @@ function twodigits(i) {
 }
 
 function nextSeprator(id) {
-    separator = $(id).text().charAt(3);
-    console.log(separator);
-    if (separator === ':') return '   '
-    else return ' : ';
+
+    separator = $(id).text().charAt(2);
+    //console.log($(id).text() + '-' + separator);
+    if (separator === ":") return ' '
+    else return ':';
 }

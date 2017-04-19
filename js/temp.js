@@ -12,7 +12,7 @@ function getTemp() {
         cache: true, // Use cache for better reponse times
         jsonpCallback: "awxCallback", // Prevent unique callback name for better reponse times
         success: function (data) {
-            console.log(JSON.stringify(data))
+            // console.log(JSON.stringify(data))
             var html;
             if (data && data.length > 0) {
                 var conditions = data[0];

@@ -1,5 +1,6 @@
 var subscriptionKey = "677a9fa1bda549a7a0dee3b90bba4a07";
 var emotionItems = ['anger', 'contempt', 'disgust', 'fear', 'happiness', 'neutral', 'sadness', 'surprise'];
+var startedSnapping = 'Started Snapping';
 
 function makeblob(dataURL) {
     var BASE64_MARKER = ';base64,';
@@ -27,7 +28,7 @@ function makeblob(dataURL) {
     });
 }
 
-function showPersonName(personId) {
+function showPersonName(personId, emotion) {
     $.ajax({
             url: "https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/usergroup/persons/" + personId,
             beforeSend: function (xhrObj) {
@@ -41,16 +42,26 @@ function showPersonName(personId) {
             contentType: 'application/JSON',
 
         }).done(function (data) {
-            console.log(data['name']);
-            Materialize.toast(data['name'], 3000, 'rounded');
+            var name = data['name'];
+            if (name === 'srini1') {
+                name = 'Srini';
+            }
+            // console.log(name, emotion);
+            var currentString = $('#snapStatus').html();
+            if (currentString === startedSnapping) {
+                currentString = 'In the last snap we found';
+            }
+            currentString += '<br/><b>' + name + '</b> Seems to be <b>' + emotion + '</b> in emotion';
+            $('#snapStatus').html(currentString);
+            Materialize.toast(name + ' Seems to be ' + emotion + ' in emotion', 3000, 'rounded');
         })
         .fail(function () {
-            alert("error");
+            alert("error showPersonName");
         });
 }
 
-function identifyPersionId(faceIdsList) {
-    console.log(faceIdsList);
+function identifyPersionId(faceIdsList, emoMap) {
+    // console.log(faceIdsList);
     var params = {
         "personGroupId": "usergroup",
         "faceIds": faceIdsList,
@@ -71,14 +82,15 @@ function identifyPersionId(faceIdsList) {
             data: JSON.stringify(params)
         })
         .done(function (data) {
+            // console.log(emoMap)
             for (var k = 0; k < data.length; k++) {
-
-                showPersonName(data[k]['candidates'][0]['personId']);
+                // console.log(data[k]['faceId'])
+                showPersonName(data[k]['candidates'][0]['personId'], emoMap[data[k]['faceId']]);
             }
 
         })
         .fail(function () {
-            alert("error");
+            alert("error identifyPersionId");
         });
 
 }
@@ -103,13 +115,13 @@ function detect(blobData) {
             var faceIds = [];
             var emoMap = {};
             for (var i = 0; i < data.length; i++) {
-
-
-                console.log(data[i].faceId);
+                //console.log(data[i].faceId);
                 var stats = data[i]['faceAttributes']['emotion'];
+                //console.log(emotionItems.length);
                 var emotionName = emotionItems[0];
                 var emotionValue = stats[emotionItems[0]];
-                for (var j = 1; j < emotionItems.lenght; j++) {
+                for (var j = 1; j < emotionItems.length; j++) {
+                    // console.log(emotionValue + '_' + stats[emotionItems[j]])
                     if (emotionValue < stats[emotionItems[j]]) {
                         emotionValue = stats[emotionItems[j]];
                         emotionName = emotionItems[j];
@@ -119,47 +131,73 @@ function detect(blobData) {
                 faceIds.push(data[i].faceId);
             }
             if (faceIds.length > 0) {
-                identifyPersionId(faceIds)
+                identifyPersionId(faceIds, emoMap)
             } else {
                 Materialize.toast('No User Identified in snap', 3000, 'rounded');
             }
         })
         .fail(function () {
-            alert("error");
+            alert("error detect");
         });
 }
 
+function processDetect(img) {
+    var max_size = 1024,
+        width = img.naturalWidth,
+        height = img.naturalHeight;
+
+
+    if (width > height) {
+        if (width > max_size) {
+            height *= max_size / width;
+            width = max_size;
+        }
+    } else {
+        if (height > max_size) {
+            width *= max_size / height;
+            height = max_size;
+        }
+    }
+
+    c = document.createElement('canvas'),
+        ctx = c.getContext("2d");
+    c.width = width;
+    c.height = height;
+    ctx.drawImage(img, 0, 0, width, height);
+    var dataURL = c.toDataURL();
+    //console.log('DATA OK w' + width + ' h' + height);
+    blobData = makeblob(dataURL);
+
+    detect(blobData);
+}
+
+function processFB(img) {
+    var width = img.naturalWidth,
+        height = img.naturalHeight;
+
+
+    c = document.createElement('canvas'),
+        ctx = c.getContext("2d");
+    c.width = width;
+    c.height = height;
+    ctx.drawImage(img, 0, 0, width, height);
+    var dataURL = c.toDataURL();
+    //console.log('DATA OK w' + width + ' h' + height);
+    blobData = makeblob(dataURL);
+
+    postPic(blobData);
+}
+
 function snapit() {
+    //console.log('in side snapit' + photoURL)
+    $('#snapStatus').html(startedSnapping);
     var img = new Image();
     img.crossOrigin = "Anonymous";
     img.onload = function () {
         //var c = document.getElementById('myCanvas');
-        console.log('In image load');
-        var max_size = 10240,
-            width = this.naturalWidth,
-            height = this.naturalHeight,
-            c = document.createElement('canvas'),
-            ctx = c.getContext("2d");
+        //processFB(img);
 
-        if (width > height) {
-            if (width > max_size) {
-                height *= max_size / width;
-                width = max_size;
-            }
-        } else {
-            if (height > max_size) {
-                width *= max_size / height;
-                height = max_size;
-            }
-        }
-        c.width = width;
-        c.height = height;
-        ctx.drawImage(this, 0, 0, width, height);
-        var dataURL = c.toDataURL();
-        console.log('DATA OK w' + width + ' h' + height);
-        blobData = makeblob(dataURL);
-        postPic(blobData)
-        //detect(blobData);
+        processDetect(img);
     }
     img.src = photoURL;
     //img.src = '/ZenLabslogo_Final.png';
