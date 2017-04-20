@@ -34,7 +34,14 @@ var matchItem = [
             }
 
         };
-
+        $(window).keydown(function (event) {
+            if (event.ctrlKey && (event.which == 83 || event.which == 115)) {
+                console.log('IN');
+                Materialize.toast('Snapping the Pic', 3000, 'rounded');
+                snapit();
+                event.preventDefault();
+            }
+        });
         $.ajaxSetup({
             cache: true
         });
