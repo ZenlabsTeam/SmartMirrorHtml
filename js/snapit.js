@@ -29,6 +29,7 @@ function makeblob(dataURL) {
 }
 
 function showPersonName(personId, emotion) {
+    console.log(personId + ' ' + emotion)
     $.ajax({
             url: "https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/usergroup/persons/" + personId,
             beforeSend: function (xhrObj) {
@@ -46,12 +47,12 @@ function showPersonName(personId, emotion) {
             if (name === 'srini1') {
                 name = 'Srini';
             }
-            // console.log(name, emotion);
-            var currentString = $('#snapStatus').html();
-            if (currentString === startedSnapping) {
-                currentString = 'In the last snap we found';
-            }
-            //currentString += '<br/><b>' + name + '</b> Seems to be <b>' + emotion + '</b> in emotion';
+            console.log(name, emotion);
+            /* var currentString = $('#snapStatus').html();
+             if (currentString === startedSnapping) {
+                 currentString = 'In the last snap we found';
+             }
+             currentString += '<br/><b>' + name + '</b> Seems to be <b>' + emotion + '</b> in emotion';*/
             //$('#snapStatus').html(currentString);
             Materialize.toast(name + ' Seems to be ' + emotion + ' in emotion', 3000, 'rounded');
         })
@@ -84,8 +85,10 @@ function identifyPersionId(faceIdsList, emoMap) {
         .done(function (data) {
             // console.log(emoMap)
             for (var k = 0; k < data.length; k++) {
-                // console.log(data[k]['faceId'])
-                showPersonName(data[k]['candidates'][0]['personId'], emoMap[data[k]['faceId']]);
+                console.log(JSON.stringify(data[k]));
+                if (data[k]['candidates'].length > 0) {
+                    showPersonName(data[k]['candidates'][0]['personId'], emoMap[data[k]['faceId']]);
+                }
             }
 
         })
@@ -115,7 +118,7 @@ function detect(blobData) {
             var faceIds = [];
             var emoMap = {};
             for (var i = 0; i < data.length; i++) {
-                console.log(data[i].faceId);
+                console.log(JSON.stringify(data[i]));
                 var stats = data[i]['faceAttributes']['emotion'];
                 //console.log(emotionItems.length);
                 var emotionName = emotionItems[0];
