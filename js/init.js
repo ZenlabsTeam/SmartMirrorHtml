@@ -9,7 +9,7 @@ var matchItem = [
 
         $('.button-collapse').sideNav();
         $('.modal').modal();
-        $('#camIP').val('172.16.10.83');
+        $('#camIP').val('172.16.10.110');
         $('#camPort').val('8080');
         //setVideo();
         $('#IPCamAddress').modal('open');
