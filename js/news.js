@@ -11,7 +11,7 @@ function getNews() {
             if (data) {
 
                 for (var i = 0; i < data.articles.length; i++) {
-                    list += data.articles[i].title + '<hr/>'
+                    list += '<p class="white-text">' + data.articles[i].title + '</p><hr/>'
 
                 }
                 //console.log(list);
